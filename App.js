@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react';
 
 export default function App() {
 
+  //using state for name, email, whether to display login or logout page, the logins array, and total number of logins
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [loginPageDisplay, setLoginPageDisplay] = useState('flex');
@@ -11,15 +12,21 @@ export default function App() {
   const [logins, setLogins] = useState([]);
   const [numLogins, setNumLogins] = useState(0);
 
+  //when logging in, switch to the correct page, add to the login count, add to the logins array, and reset the name and email fields
   const handleLogin = () => {
+    if(name === '' || email === '') {
+      alert('Please enter a name and email');
+      return;
+    }
+    setLogins([...logins, {name: name, email: email, numLogins: numLogins+1}]);
     setNumLogins(numLogins + 1);
-    setLogins([...logins, {name: name, email: email, numLogins: numLogins}]);
     setLoginPageDisplay('none');
     setLogoutPageDisplay('flex');
     setName('');
     setEmail('');
   }
 
+  //when logging out, simply switch back to the login page 
   const handleLogout = () => {
     setLoginPageDisplay('flex');
     setLogoutPageDisplay('none');
@@ -27,6 +34,7 @@ export default function App() {
 
   return (
     <SafeAreaView style={styles.container}>
+      {/* login page */}
       <View style={[styles.screen, {display: loginPageDisplay}]}>
         <Text style={{fontSize: 30, flex: 0.2}}>Login</Text>
         
@@ -53,6 +61,7 @@ export default function App() {
         ></Button>
       </View>
 
+      {/* logout page */}
       <View style={[styles.screen, {display: logoutPageDisplay }]}>        
       <Text style={{fontSize: 30, flex: 0.2}}>Logout</Text>
         <Text style={styles.welcome}>Hello {name}, 
@@ -63,7 +72,7 @@ export default function App() {
             {logins.map((login, index) => {
               return (
                 <View key={index}>
-                  <Text style={styles.scrollItem}> Logged in at: {numLogins}</Text>
+                  <Text style={styles.scrollItem}> Logged in at: {login.numLogins}</Text>
                 </View>
               );
             })}
@@ -76,12 +85,7 @@ export default function App() {
           onPress={() => handleLogout()}
         ></Button>
       </View>
-
-
-
     </SafeAreaView>
-
-    
   );
 }
 
