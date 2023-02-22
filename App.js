@@ -22,8 +22,6 @@ export default function App() {
     setNumLogins(numLogins + 1);
     setLoginPageDisplay('none');
     setLogoutPageDisplay('flex');
-    setName('');
-    setEmail('');
   }
 
   //when logging out, simply switch back to the login page 
